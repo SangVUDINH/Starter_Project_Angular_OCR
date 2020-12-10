@@ -1,0 +1,7 @@
+
+<p>@Output eventEmitter Comunication ENFANT PARENT via EVENT</p>
+<app-enfant     (newItemEvent)="addItem($event)"></app-enfant>
+
+<ul>
+    <li *ngFor="let item of items">{{item}}</li>
+</ul>

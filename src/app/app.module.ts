@@ -1,18 +1,53 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from'@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MonPremierComponent } from './mon-premier/mon-premier.component';
+import { AppareilComponent } from './appareil/appareil.component';
+import { ParentComponent } from './parent/parent.component';
+import { EnfantComponent } from './enfant/enfant.component';
+
+import { AppareilService } from './services/appareil.service';
+import { AuthService } from './services/auth.service';
+import { AuthComponent } from './auth/auth.component';
+import { AppareilViewComponent } from './appareil-view/appareil-view.component';
+import { RouterModule, Routes } from '@angular/router';
+import { SingleAppareilComponent } from './single-appareil/single-appareil.component';
+import { RedirectComponent } from './redirect/redirect.component';
+import { AuthGuardService } from './services/auth-guard.service';
+
+const appRoutes: Routes = [
+  { path: 'appareils', canActivate:[AuthGuardService] ,component: AppareilViewComponent },
+  { path: 'appareils/:id', canActivate:[AuthGuardService] , component: SingleAppareilComponent },
+
+  { path: 'auth', component: AuthComponent },
+  { path: '', component: AppareilViewComponent },
+  { path: 'notfound', component: RedirectComponent },
+  { path: '**', redirectTo: '/notfound' },
+];
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MonPremierComponent,
+    AppareilComponent,
+    ParentComponent,
+    EnfantComponent,
+    AuthComponent,
+    AppareilViewComponent,
+    SingleAppareilComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
+    AppRoutingModule,
+
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [AppareilService, AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
